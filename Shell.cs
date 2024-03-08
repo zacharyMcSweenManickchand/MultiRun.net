@@ -16,13 +16,11 @@ class Shell
 
     public async Task StartShell()
     {
-        Console.WriteLine("Start Shell");
         ProcessStartInfo info = new ProcessStartInfo();
         info.FileName = "/bin/bash";
         info.Arguments = $"-c \"dotnet run --project '{FileLocation}'\"";
         info.RedirectStandardOutput = true;
         info.UseShellExecute = false;
-        Console.WriteLine($"-c \"dotnet run --project '{FileLocation}'\"");
 
         shell = Process.Start(info);
         if (shell == null)
@@ -49,7 +47,7 @@ class Shell
 
                 if (reader.Peek() == -1)
                 {
-                    display.Print(FileLocation, string.Join(Environment.NewLine, lineBuffer));
+                    display.Print(Path.GetFileNameWithoutExtension(FileLocation), string.Join(Environment.NewLine, lineBuffer));
                     lineBuffer.Clear();
                 }
             }
