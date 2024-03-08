@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 namespace VirtualShellReader;
 public class Display
 {
@@ -58,6 +59,22 @@ public class Display
         string forg = Foreground != null ? $"{(int)Foreground}" : "97";
         return $"\u001b[{backg}{forg}m{text}\u001b[0m";
     }
+
+    private string[] splitLongLines(string line, int maxLength)
+    {
+        if (line.Length <= maxLength)
+            return new[] { line };
+
+        var lines = new System.Collections.Generic.List<string>();
+
+        for (int i = 0; i < line.Length; i += maxLength)
+        {
+            lines.Add(line.Substring(i, Math.Min(maxLength, line.Length - i)));
+        }
+
+        return lines.ToArray();
+    }
+
     private void printBox(string text)
     {
         int maxLength = Console.WindowWidth - 4; // Adjusting for box borders
@@ -76,7 +93,9 @@ public class Display
             var splittedLines = splitLongLines(line, boxWidth - 4);
             foreach (var splitLine in splittedLines)
             {
-                Console.Write(highlight(" ║ ") + splitLine.PadRight(boxWidth - 4) + highlight(" ║ ") + "\n");
+                string removedExtra = RemoveColorCodes(splitLine);
+                int extra = splitLine.Length - removedExtra.Length;
+                Console.Write(highlight(" ║ ") + splitLine.PadRight(boxWidth - 4 + extra) + highlight(" ║ ") + "\n");
             }
         }
 
@@ -84,20 +103,12 @@ public class Display
         Console.WriteLine(highlight(" ╚" + new string('═', boxWidth - 2) + "╝ "));
     }
 
-    private string[] splitLongLines(string line, int maxLength)
+    private string RemoveColorCodes(string input)
     {
-        if (line.Length <= maxLength)
-            return new[] { line };
-
-        var lines = new System.Collections.Generic.List<string>();
-
-        for (int i = 0; i < line.Length; i += maxLength)
-        {
-            lines.Add(line.Substring(i, Math.Min(maxLength, line.Length - i)));
-        }
-
-        return lines.ToArray();
+        string pattern = @"\u001b\[[0-9;]*m";
+        return Regex.Replace(input, pattern, string.Empty);
     }
+
     public void Print(string title, string output)
     {
         Console.WriteLine("\n" + highlight($" {title} "));
