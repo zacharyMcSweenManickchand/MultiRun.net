@@ -1,19 +1,34 @@
 ﻿namespace VirtualShellReader;
 class Program
 {
+
     static async Task Main(string[] args)
     {
-        List<string> projs = SearchProjFiles("");
-        var tasks = new[]
+        List<string> projs = SearchProjectsFiles("");
+        List<Func<Task>> tasks = new List<Func<Task>>();
+        foreach (var item in LoadProjects(projs))
         {
-                new Shell(projs.ElementAt(0), new Display(Display.AnsiForeground.white, Display.AnsiBackground.blue)).StartShell(),
-                //new Shell(projs.ElementAt(2), new Display(Display.AnsiForeground.white, Display.AnsiBackground.red)).StartShell(),
-                //new Shell(projs.ElementAt(3), new Display(Display.AnsiForeground.white, Display.AnsiBackground.purple)).StartShell(),
-            };
+            tasks.Add(async() => await item.StartShell());
+        }
 
-        await Task.WhenAll(tasks);
+        await Task.WhenAll(tasks.Select(task => Task.Run(task)));
     }
-    static List<string> SearchProjFiles(string directory)
+
+    static IEnumerable<Shell> LoadProjects(List<string> projects) {
+        var displays = new[]{
+            new Display(Display.AnsiForeground.white, Display.AnsiBackground.blue),
+            new Display(Display.AnsiForeground.white, Display.AnsiBackground.red),
+            new Display(Display.AnsiForeground.white, Display.AnsiBackground.green),
+            new Display(Display.AnsiForeground.white, Display.AnsiBackground.purple),
+            new Display(Display.AnsiForeground.white, Display.AnsiBackground.black),
+        };
+        for (int i = 0; i < projects.Count; i++)
+        {
+            yield return new Shell(projects.ElementAt(i), displays.ElementAt(i)); 
+        }
+    }
+
+    static List<string> SearchProjectsFiles(string directory)
     {
         List<string> txtFilePaths = new List<string>();
 
@@ -29,7 +44,7 @@ class Program
             // Recursively search all subdirectories
             foreach (string subdirectory in Directory.GetDirectories(directory))
             {
-                List<string> subdirectoryFiles = SearchProjFiles(subdirectory);
+                List<string> subdirectoryFiles = SearchProjectsFiles(subdirectory);
                 txtFilePaths.AddRange(subdirectoryFiles); // Add files found in subdirectories
             }
         }

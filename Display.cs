@@ -75,16 +75,17 @@ public class Display
         return lines.ToArray();
     }
 
-    private void printBox(string text)
+    private string createBox(string text)
     {
         int maxLength = Console.WindowWidth - 4; // Adjusting for box borders
         string[] lines = text.Split('\n');
+        string output = "";
 
         // Calculate width of the box
         int boxWidth = Math.Min(maxLength, lines.Max(line => line.Length) + 4); // Adjusting for box borders
 
         // Top border
-        Console.WriteLine(highlight(" ╔" + new string('═', boxWidth - 2) + "╗ "));
+        output += highlight(" ╔" + new string('═', boxWidth - 2) + "╗ ") + "\n";
 
         // Content
         foreach (string line in lines)
@@ -95,12 +96,14 @@ public class Display
             {
                 string removedExtra = RemoveColorCodes(splitLine);
                 int extra = splitLine.Length - removedExtra.Length;
-                Console.Write(highlight(" ║ ") + splitLine.PadRight(boxWidth - 4 + extra) + highlight(" ║ ") + "\n");
+                output += highlight(" ║ ") + splitLine.PadRight(boxWidth - 4 + extra) + highlight(" ║ ") + "\n";
             }
         }
 
         // Bottom border
-        Console.WriteLine(highlight(" ╚" + new string('═', boxWidth - 2) + "╝ "));
+        output += highlight(" ╚" + new string('═', boxWidth - 2) + "╝ ") + "\n";
+
+        return output;
     }
 
     private string RemoveColorCodes(string input)
@@ -111,8 +114,7 @@ public class Display
 
     public void Print(string title, string output)
     {
-        Console.WriteLine("\n" + highlight($" {title} "));
-        printBox(output);
+        Console.WriteLine("\n" + highlight($" {title} ") + "\n" + createBox(output));
     }
 
 }

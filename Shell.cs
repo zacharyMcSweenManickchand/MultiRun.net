@@ -16,6 +16,7 @@ class Shell
 
     public async Task StartShell()
     {
+        Console.WriteLine("Start Shell");
         ProcessStartInfo info = new ProcessStartInfo();
         info.FileName = "/bin/bash";
         info.Arguments = $"-c \"dotnet run --project '{FileLocation}'\"";
@@ -46,7 +47,8 @@ class Shell
 
                 lineBuffer.Add(line);
 
-                if (reader.Peek() == -1) {
+                if (reader.Peek() == -1)
+                {
                     display.Print(FileLocation, string.Join(Environment.NewLine, lineBuffer));
                     lineBuffer.Clear();
                 }
