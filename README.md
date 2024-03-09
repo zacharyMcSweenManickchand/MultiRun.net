@@ -6,6 +6,12 @@ MultiRun.net is a solution to the limitation faced when working with multiple pr
 
 However, using bash/batch scripts can lead to the loss of valuable logging information from the console. MultiRun.net provides a convenient solution that allows running multiple projects simultaneously in the same terminal window.
 
+## Demo
+
+This demonstration presents the execution capabilities of `mrn`. Utilizing an API and MVC project as examples, it illustrates how `mrn` manages multiple projects concurrently. Throughout the demo, the interaction between these projects is highlighted, with the console output printed in a singular console.
+
+https://github.com/zacharyMcSweenManickchand/MultiRun.net/assets/58368863/194f2ba3-f2cb-4b5a-b5b3-48a790786c3f
+
 ## Features
 
 - Simultaneous Execution: Run multiple projects within your solution simultaneously.
