@@ -1,7 +1,6 @@
 using System.Diagnostics;
 
 namespace VirtualShellReader;
-// Mostly a wrapper around `Process`
 class Shell
 {
     private string FileLocation;
@@ -28,7 +27,7 @@ class Shell
             throw new Exception("Shell is not connected");
         }
         await StreamOutput(shell);
-        await shell.WaitForExitAsync(); // Make WaitForExit asynchronous
+        await shell.WaitForExitAsync();
     }
 
     public async Task StreamOutput(Process process)
@@ -41,7 +40,7 @@ class Shell
             {
                 string? line = await reader.ReadLineAsync();
                 if (line == null)
-                    break;  // Exit the loop when end of stream is reached
+                    break;
 
                 lineBuffer.Add(line);
 

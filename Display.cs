@@ -62,14 +62,15 @@ public class Display
 
     private string[] splitLongLines(string line, int maxLength)
     {
-        if (line.Length <= maxLength)
+        int lineLenght = RemoveColorCodes(line).Length;
+        if (lineLenght <= maxLength)
             return new[] { line };
 
         var lines = new System.Collections.Generic.List<string>();
 
-        for (int i = 0; i < line.Length; i += maxLength)
+        for (int i = 0; i < lineLenght; i += maxLength)
         {
-            lines.Add(line.Substring(i, Math.Min(maxLength, line.Length - i)));
+            lines.Add(line.Substring(i, Math.Min(maxLength, lineLenght - i)));
         }
 
         return lines.ToArray();
@@ -77,20 +78,16 @@ public class Display
 
     private string createBox(string text)
     {
-        int maxLength = Console.WindowWidth - 4; // Adjusting for box borders
+        int maxLength = Console.WindowWidth - 4;
         string[] lines = text.Split('\n');
         string output = "";
 
-        // Calculate width of the box
-        int boxWidth = Math.Min(maxLength, lines.Max(line => line.Length) + 4); // Adjusting for box borders
+        int boxWidth = Math.Min(maxLength, lines.Max(line => line.Length) + 4);
 
-        // Top border
         output += highlight(" ╔" + new string('═', boxWidth - 2) + "╗ ") + "\n";
 
-        // Content
         foreach (string line in lines)
         {
-            // Split long lines into multiple lines
             var splittedLines = splitLongLines(line, boxWidth - 4);
             foreach (var splitLine in splittedLines)
             {
@@ -100,7 +97,6 @@ public class Display
             }
         }
 
-        // Bottom border
         output += highlight(" ╚" + new string('═', boxWidth - 2) + "╝ ") + "\n";
 
         return output;

@@ -41,18 +41,15 @@ class Program
 
         try
         {
-            // Process all the files in the current directory
             foreach (string file in Directory.GetFiles(directory, "*.csproj"))
             {
-                txtFilePaths.Add(file); // Add the file path to the list
-                Console.WriteLine(file);
+                txtFilePaths.Add(file);
             }
 
-            // Recursively search all subdirectories
             foreach (string subdirectory in Directory.GetDirectories(directory))
             {
                 List<string> subdirectoryFiles = SearchProjectsFiles(subdirectory);
-                txtFilePaths.AddRange(subdirectoryFiles); // Add files found in subdirectories
+                txtFilePaths.AddRange(subdirectoryFiles);
             }
         }
         catch (Exception e)
