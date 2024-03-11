@@ -22,7 +22,7 @@ https://github.com/zacharyMcSweenManickchand/MultiRun.net/assets/58368863/194f2b
 
 To install MultiRun.net, follow these steps:
 ```
-git clone https://github.com/yourusername/MultiRun.net.git             # Clone the repository
+git clone https://github.com/zacharyMcSweenManickchand/MultiRun.net.git             # Clone the repository
 cd MultiRun.net                                                        # Navigate to the project directory
 dotnet build -c Release && dotnet pack -c Release                      # Build the solution
 dotnet tool install --global --add-source ./nupkg mrn --version 1.0.0  # Add Globally
