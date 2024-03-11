@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace VirtualShellReader;
 class Shell
@@ -6,6 +7,7 @@ class Shell
     private string FileLocation;
     private Display display;
     private Process? shell;
+    private bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows); 
 
     public Shell(string FileLocation, Display display)
     {
@@ -17,6 +19,9 @@ class Shell
     {
         ProcessStartInfo info = new ProcessStartInfo();
         info.FileName = "/bin/bash";
+        if (this.isWindows){
+            info.FileName = "cmd.exe";
+        }
         info.Arguments = $"-c \"dotnet run --project '{FileLocation}'\"";
         info.RedirectStandardOutput = true;
         info.UseShellExecute = false;
