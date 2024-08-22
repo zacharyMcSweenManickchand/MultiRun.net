@@ -41,6 +41,6 @@ Contributions are welcome! If you find any issues or have ideas for improvements
 
 ## Contact
 
-For any inquiries or feedback, please [send an email](zacharymcsweenmanickchand@gmail.com).
+For any inquiries or feedback, please [send an email](mailto:zacharymcsweenmanickchand@gmail.com).
 
 Thank you for using MultiRun.net!
