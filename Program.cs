@@ -31,7 +31,7 @@ class Program
         };
         for (int i = 0; i < projects.Count; i++)
         {
-            yield return new Shell(projects.ElementAt(i), displays.ElementAt(i));
+            yield return new Shell(projects[i]), displays[i%displays.Length]);
         }
     }
 
